@@ -1,0 +1,16 @@
+{
+  "name": "1255",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "server": "json-server db.json",
+    "build": "vite build",
+    "preview": "vite preview",
+    "deploy": "npm run build & surge ./dist vladimir-minkin-gikit-basic-card-css.surge.sh"
+  },
+  "devDependencies": {
+    "vite": "^4.4.5"
+  } 
+}
