@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
     <title>My card - Tailwind</title>
     <style>
       @tailwind base;
@@ -12,11 +12,39 @@
       @tailwind utilities;
     </style>
   </head>
-  <body class="bg-neutral-200">
-    <div class="flex flex-col bg-amber-100 w-80 h-16">
+  <body class="bg-neutral-400 flex flex-row justify-center">
+    <div class="bg-white p-4 flex flex-col w-[233px] rounded-2xl space-y-4">
+      <div class="flex flex-row justify-between items-center">
+        <span>
+          <iconify-icon icon="mdi:youtube" style="color: red; font-size: 32px;"></iconify-icon>
+        </span>
+        <div class="rounded-full bg-green-500 px-4 py-1.5 flex flex-col justify-center">
+          <span class="text-xs text-white font-semibold leading-none">
+            Free
+          </span>
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <span>Videos</span>
+        <span>Youtube</span>
+      </div>
       <div class="flex flex-row justify-between">
+        <div class="flex flex-col">
+          <span>Rating</span>
+          <span>5.0</span>
+        </div>
+        <div class="flex flex-col">
+          <span>Size</span>
+          <span>95.5mb</span>
+        </div>
+        <div class="flex flex-col">
+          <span>Downloads</span>
+          <span>8.5m</span>
+        </div>
+      </div>
+      <div class="flex flex-row justify-start">
         <span>icon</span>
-        <span>free</span>
+        <span>30 Mb/sec</span>
       </div>
     </div>
   </body>
