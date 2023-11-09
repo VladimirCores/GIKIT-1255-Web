@@ -12,12 +12,21 @@
       @tailwind utilities;
     </style>
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+      @font-face {
+        font-family: 'Inter';
+        font-weight: 400;
+        src: url('/fonts/Inter-Regular.ttf');
+      }
+      @font-face {
+        font-family: 'Inter';
+        font-weight: 700;
+        src: url('/fonts/Inter-Bold.ttf');
+      }
     </style>
   </head>
   <body class="bg-neutral-400 flex flex-row justify-center">
     <div class="bg-white p-4 flex flex-col w-[300px] rounded-2xl space-y-4">
-      <div class="flex flex-row justify-between items-center">
+      <div class="flex flex-row justify-between items-center" style="font-family: MyFont;">
         <span>
           <iconify-icon icon="mdi:youtube" style="color: red; font-size: 32px;"></iconify-icon>
         </span>
