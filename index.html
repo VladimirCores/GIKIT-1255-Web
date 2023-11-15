@@ -4,70 +4,61 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
     <title>My card - Tailwind</title>
     <style>
-      .card {
-        width: 550px;
-        height: 377px;
-        background-color: white;
-        border-radius: 16px;
-        display: flex;
-        flex-direction: row;
-        overflow: hidden;
+      @tailwind base;
+      @tailwind components;
+      @tailwind utilities;
+    </style>
+    <style>
+      @font-face {
+        font-family: 'Inter';
+        font-weight: 400;
+        src: url('/fonts/Inter-Regular.ttf');
       }
-      .image {
-        background-color: rgb(251, 168, 168);
-        width: 50%;
-      }
-      .content {
-        background-color: rgb(148, 248, 181);
-        width: 50%;
-        padding: 24px;
-        display: flex;
-        flex-direction: column;
-        justify-content: start;
-      }
-      .content .type {
-        color: grey;
-        text-transform: uppercase;
-        font-size: 12px;
-        font-family: sans-serif;
-      }
-      .content .title {
-        color: black;
-        font-size: 32px;
-        font-family: serif;
-        font-weight: bold;
-        margin: 16px 0;
-        line-height: 1.1;
-      }
-      .content .description {
-        color: #444;
-        font-size: 12px;
-        font-family: sans-serif;
-        line-height: 1.5;
-      }
-      .content .price {
-        color: darkgreen;
-        font-size: 36px;
-        font-family: serif;
-        font-weight: bold;
-        margin: 16px 0;
+      @font-face {
+        font-family: 'Inter';
+        font-weight: 700;
+        src: url('/fonts/Inter-Bold.ttf');
       }
     </style>
   </head>
-  <body style="background-color:cornsilk">
-    <div class="card">
-      <div class="image">IMAGE</div>
-      <div class="content">
-        <div class="type">PERFUME</div>
-        <div class="title">Product preview card component</div>
-        <div class="description">This HTML & CSS-only challenge will be perfect for anyone starting to build responsive projects.</div>
-        <div class="price">
-          <span class="discount">$149</span>
-          <span class="real">$169</span>
+  <body class="bg-neutral-400 flex flex-row justify-center">
+    <div class="bg-white p-4 flex flex-col w-[300px] rounded-2xl space-y-4">
+      <div class="flex flex-row justify-between items-center" style="font-family: Inter;">
+        <span>
+          <iconify-icon icon="mdi:youtube" style="color: red; font-size: 32px;"></iconify-icon>
+        </span>
+        <div class="rounded-full bg-green-500 px-4 py-1.5 flex flex-col justify-center">
+          <span class="text-xs text-white font-semibold leading-none">
+            Free
+          </span>
         </div>
-        <button class="add">Add to Card</button>
+      </div>
+      <div class="flex flex-col">
+        <span class="text-sm">Videos</span>
+        <span class="text-3xl font-bold">Youtube</span>
+      </div>
+      <div class="flex flex-row justify-between">
+        <div class="flex flex-col space-y-1">
+          <span class="text-xs">Rating</span>
+          <span class="font-bold">5.0</span>
+        </div>
+        <div class="flex flex-col space-y-1">
+          <span class="text-xs">Size</span>
+          <span class="font-bold">95.5mb</span>
+        </div>
+        <div class="flex flex-col space-y-1">
+          <span class="text-xs">Downloads</span>
+          <span class="font-bold">8.5m</span>
+        </div>
+      </div>
+      <div class="flex flex-row justify-start items-center space-x-3">
+        <span>
+          <iconify-icon icon="icon-park-solid:pause-one" style="color: #0044fc; font-size: 48px;"></iconify-icon>
+        </span>
+        <span class="text-sm">30 Mb/sec</span>
       </div>
     </div>
   </body>

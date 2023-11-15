@@ -8,9 +8,12 @@
     "server": "json-server db.json",
     "build": "vite build",
     "preview": "vite preview",
-    "deploy": "npm run build & surge ./dist vladimir-minkin-gikit-basic-card-css.surge.sh"
+    "deploy": "npm run build & surge ./dist vladimir-minkin-gikit-tailwind-card.surge.sh"
   },
   "devDependencies": {
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.31",
+    "tailwindcss": "^3.3.5",
     "vite": "^4.4.5"
-  } 
+  }
 }
