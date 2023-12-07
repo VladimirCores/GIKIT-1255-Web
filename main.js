@@ -1,13 +1,6 @@
-// document
-//   .getElementById('output')
-//   .innerText = 'Welcome Vladimir';
-
 const domOutput = document.getElementById('output');
 const domInput = document.getElementById('input');
 const domButton = document.getElementById('enter');
-
-// domInput.value = '123';
-// domOutput.innerText = 'Welcome Vladimir';
 
 domButton.onclick = function(event) {
   console.log('domButton -> onclick: 0) - check input is not empty');
@@ -21,12 +14,3 @@ domButton.onclick = function(event) {
     // alert('Wrong input');
   }
 }
-
-domInput.oninput = function(event) {
-  // console.log('domInput -> oninput', event);
-}
-
-// document.onmousemove = function(event) {
-//   console.log('move', event);
-//   domOutput.innerText = "X:" + event.clientX;
-// }
