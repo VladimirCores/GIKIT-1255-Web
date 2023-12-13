@@ -17,8 +17,9 @@ const onCreateTodoButtonClick = function(event) {
 const onInputTextInput = function() {
   renderInputHighlightColor("");
 }
-const onTodoDeleteClick = function() {
-  console.log('todoDelete -> onTodoDeleteClick');
+const onTodoDeleteClick = function(event) {
+  console.log('todoDelete -> onTodoDeleteClick', event);
+  event.currentTarget.parentNode.remove();
 }
 // LISTENERS ENDs
 
@@ -33,17 +34,38 @@ const renderAlert = function(message) {
 }
 const renderInputTextInOutput = function() {
   console.log('domButton -> onclick: 1) - add todo');
-  domOutput.innerHTML += `
-    <div>
-      ${numberOfTodos}. ${domInput.value} 
-      <button style="background-color:red;" onclick="onTodoDeleteClick">x</button>
-    </div>
-  `;
+
+  const domTodoContainer = document.createElement('div');
+
+  const domTodoButtonDelete = createActionButtonWithText('delete');
+  domTodoButtonDelete.onclick = onTodoDeleteClick;
+
+  domTodoContainer.innerText = `${numberOfTodos}. ${domInput.value}`;
+
+  domTodoContainer.appendChild(domTodoButtonDelete);
+  domOutput.appendChild(domTodoContainer);
+  
   console.log('domButton -> onclick: 2) - clear input');
   domInput.value = '';
 }
 const renderInputHighlightColor = (color) => domInput.style.backgroundColor = color;
 // RENDER ENDs
 
+// UTILS Methods
+const createActionButtonWithText = (text) => {
+  const btn = document.createElement('button');
+  btn.innerText = text;
+  btn.style.backgroundColor = 'red';
+  btn.style.marginLeft = '12px';
+  btn.style.border = 'solid 2px';
+  btn.style.borderColor = 'green';
+  return btn;
+}
+// UTILS ENDs
+
 domButton.onclick = onCreateTodoButtonClick;
 domInput.oninput = onInputTextInput;
+
+domInput.value = "Test";
+numberOfTodos = 1;
+renderInputTextInOutput();
