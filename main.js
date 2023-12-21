@@ -2,15 +2,20 @@ const domOutput = document.getElementById('output');
 const domInput = document.getElementById('input');
 const domButton = document.getElementById('enter');
 
-let numberOfTodos = 0;
+const LOCAL_KEY_TODOS = 'todos';
+
+const todosRaw = localStorage.getItem(LOCAL_KEY_TODOS)
+const todos = todosRaw ? JSON.parse(todosRaw) : [];
 
 // LISTENERS METHODS
 const onCreateTodoButtonClick = function(event) {
   console.log('domButton -> onclick: 0) - check input is not empty');
 
   if (checkInputWithText()) {
-    numberOfTodos += 1;
-    renderInputTextInOutput();
+    todos.push(domInput.value);
+    localStorage.setItem(LOCAL_KEY_TODOS, JSON.stringify(todos));
+    renderTodos();
+    domInput.value = '';
   }
   else renderAlert('Wrong input');
 }
@@ -19,7 +24,11 @@ const onInputTextInput = function() {
 }
 const onTodoDeleteClick = function(event) {
   console.log('todoDelete -> onTodoDeleteClick', event);
-  event.currentTarget.parentNode.remove();
+  const index = event.currentTarget.dataset.index;
+  console.log('todoDelete -> onTodoDeleteClick', { index });
+  todos.splice(parseInt(index), 1);
+  localStorage.setItem(LOCAL_KEY_TODOS, JSON.stringify(todos));
+  renderTodos();
 }
 // LISTENERS ENDs
 
@@ -32,21 +41,34 @@ const renderAlert = function(message) {
   renderInputHighlightColor("red");
   alert(message);
 }
+const renderTodos = () => {
+  domOutput.innerHTML = '';
+  console.log('renderTodos:', todos);
+  for (let index = 0; index < todos.length; index++) {
+    const todoItem = todos[index];  
+    console.log('renderTodos -> todoItem:', todoItem);
+    renderTodo(index, todoItem);
+  }
+}
 const renderInputTextInOutput = function() {
   console.log('domButton -> onclick: 1) - add todo');
 
-  const domTodoContainer = document.createElement('div');
-
-  const domTodoButtonDelete = createActionButtonWithText('delete');
-  domTodoButtonDelete.onclick = onTodoDeleteClick;
-
-  domTodoContainer.innerText = `${numberOfTodos}. ${domInput.value}`;
-
-  domTodoContainer.appendChild(domTodoButtonDelete);
-  domOutput.appendChild(domTodoContainer);
+  renderTodo(todos.length, domInput.value);
   
   console.log('domButton -> onclick: 2) - clear input');
   domInput.value = '';
+}
+const renderTodo = (index, text) => {
+  const domTodoContainer = document.createElement('div');
+
+  const domTodoButtonDelete = createActionButtonWithText('delete');
+  domTodoButtonDelete.dataset.index = index;
+  domTodoButtonDelete.onclick = onTodoDeleteClick;
+
+  domTodoContainer.innerText = `${index}. ${text}`;
+
+  domTodoContainer.appendChild(domTodoButtonDelete);
+  domOutput.appendChild(domTodoContainer);
 }
 const renderInputHighlightColor = (color) => domInput.style.backgroundColor = color;
 // RENDER ENDs
@@ -66,6 +88,4 @@ const createActionButtonWithText = (text) => {
 domButton.onclick = onCreateTodoButtonClick;
 domInput.oninput = onInputTextInput;
 
-domInput.value = "Test";
-numberOfTodos = 1;
-renderInputTextInOutput();
+renderTodos();
