@@ -1,91 +1,52 @@
-const domOutput = document.getElementById('output');
-const domInput = document.getElementById('input');
-const domButton = document.getElementById('enter');
+import Base from "./game/Base.js";
+import HumanBase from "./game/bases/HumanBase.js";
+import Utils from "./game/Utils.js";
 
-const LOCAL_KEY_TODOS = 'todos';
+const baseZealot = document.getElementById('base-zealot');
+const baseHumans = document.getElementById('base-humans');
+const unitZealot = document.getElementById('unit-zealot');
+const unitMarine = document.getElementById('unit-marine');
 
-const todosRaw = localStorage.getItem(LOCAL_KEY_TODOS)
-const todos = todosRaw ? JSON.parse(todosRaw) : [];
+const map = document.getElementById('map');
 
-// LISTENERS METHODS
-const onCreateTodoButtonClick = function(event) {
-  console.log('domButton -> onclick: 0) - check input is not empty');
+unitZealot.remove();
+unitMarine.remove();
 
-  if (checkInputWithText()) {
-    todos.push(domInput.value);
-    localStorage.setItem(LOCAL_KEY_TODOS, JSON.stringify(todos));
-    renderTodos();
-    domInput.value = '';
-  }
-  else renderAlert('Wrong input');
-}
-const onInputTextInput = function() {
-  renderInputHighlightColor("");
-}
-const onTodoDeleteClick = function(event) {
-  console.log('todoDelete -> onTodoDeleteClick', event);
-  const index = event.currentTarget.dataset.index;
-  console.log('todoDelete -> onTodoDeleteClick', { index });
-  todos.splice(parseInt(index), 1);
-  localStorage.setItem(LOCAL_KEY_TODOS, JSON.stringify(todos));
-  renderTodos();
-}
-// LISTENERS ENDs
+let selectUnit = null;
+const units = [];
 
-// LOGICAL METHODS
-const checkInputWithText = () => domInput.value.length > 0 && isNaN(domInput.value);
-// LOGICAL ENDs
+const zealotBase = new Base('Zealots Base', 10, baseZealot, unitZealot, map, onUnitCreation);
+const humanBase = new HumanBase('Human Base', 2, baseHumans, unitMarine, map, onUnitCreation);
 
-// RENDER METHODS
-const renderAlert = function(message) {
-  renderInputHighlightColor("red");
-  alert(message);
-}
-const renderTodos = () => {
-  domOutput.innerHTML = '';
-  console.log('renderTodos:', todos);
-  for (let index = 0; index < todos.length; index++) {
-    const todoItem = todos[index];  
-    console.log('renderTodos -> todoItem:', todoItem);
-    renderTodo(index, todoItem);
+console.log('> zealotBase:', zealotBase.name);
+
+document.onclick = (event) => {
+  console.log('> document.onclick -> event:', event);
+  if ([
+    humanBase.graphics, 
+    zealotBase.graphics
+  ].includes(event.target)) return;
+  if (selectUnit !== null) {
+    selectUnit.style.left = event.clientX + 'px';
+    selectUnit.style.top = event.clientY + 'px';
   }
 }
-const renderInputTextInOutput = function() {
-  console.log('domButton -> onclick: 1) - add todo');
 
-  renderTodo(todos.length, domInput.value);
-  
-  console.log('domButton -> onclick: 2) - clear input');
-  domInput.value = '';
+function onUnitCreation(unit, base) {
+  console.log('> onUnitCreation -> unit:', unit, base);
+  unit.style.left = Utils.getCssPositionProperty(base.graphics, "left") + 'px';
+  unit.style.top = Utils.getCssPositionProperty(base.graphics, "top") + Utils.getCssPositionProperty(base.graphics, "height") + 'px';
+  this.map.appendChild(unit);
+  unit.onclick = onSelectUnit;
+  units.push(unit);
 }
-const renderTodo = (index, text) => {
-  const domTodoContainer = document.createElement('div');
 
-  const domTodoButtonDelete = createActionButtonWithText('delete');
-  domTodoButtonDelete.dataset.index = index;
-  domTodoButtonDelete.onclick = onTodoDeleteClick;
-
-  domTodoContainer.innerText = `${index}. ${text}`;
-
-  domTodoContainer.appendChild(domTodoButtonDelete);
-  domOutput.appendChild(domTodoContainer);
+function onSelectUnit(event) {
+  if (selectUnit !== null) {
+    selectUnit.style.backgroundColor = '';
+  }
+  selectUnit = event.currentTarget;
+  selectUnit.style.backgroundColor = 'green';
+  event.stopPropagation();
 }
-const renderInputHighlightColor = (color) => domInput.style.backgroundColor = color;
-// RENDER ENDs
 
-// UTILS Methods
-const createActionButtonWithText = (text) => {
-  const btn = document.createElement('button');
-  btn.innerText = text;
-  btn.style.backgroundColor = 'red';
-  btn.style.marginLeft = '12px';
-  btn.style.border = 'solid 2px';
-  btn.style.borderColor = 'green';
-  return btn;
-}
-// UTILS ENDs
-
-domButton.onclick = onCreateTodoButtonClick;
-domInput.oninput = onInputTextInput;
-
-renderTodos();
