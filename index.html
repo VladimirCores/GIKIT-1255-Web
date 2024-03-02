@@ -1,55 +1,15 @@
 <html>
   <head>
     <style>
-      .base {
-        background-position: center; 
-        background-repeat: no-repeat; 
-        background-size: cover;
-        position: absolute;
-        background-color: aquamarine;
-        width: 300px;
-        height: 200px;
-      }
-      .base * {
-        pointer-events: none;
-      }
-      .base .name {
-        font-size: 24px;
-        font-weight: 700;
-      }
-      .unit-zealot {
-        width: 34px;
-        height: 34px;
-        background-color: lightcoral;
-      }
-      .unit-marine {
-        border-radius: 100%;
-        width: 34px;
-        height: 34px;
-        background-color: lightgreen;
+      body {
+        padding: 0;
+        margin: 0;
+        border: none;
       }
     </style>
   </head>
   <body>
-    <script src="https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js"></script>
-
-    <div id="unit-zealot" class="unit-zealot"></div>
-    <div id="unit-marine" class="unit-marine"></div>
-    
-    <div style="position: absolute;" id="map"></div>
-
-    <button class="base" style="background-image: url(./base.webp); top: 200px; left: 500px;" id="base-zealot">
-      <div class="name" style="color: red;">Base</div>
-      <iconify-icon icon="iconamoon:3d-bold" observer="false" style="font-size: 32px; color: red;"></iconify-icon>
-      <div style="color: red; position: absolute; left: 0px; top: 0px" id="countdown"></div>
-    </button>
-
-    <button class="base" id="base-humans">
-      <div class="name" style="color: rgb(4, 255, 0);">Base</div>
-      <iconify-icon icon="iconamoon:3d-bold" observer="false" style="font-size: 32px; color: red;"></iconify-icon>
-      <div style="color: rgb(43, 255, 0); position: absolute; left: 0px; top: 0px" id="countdown"></div>
-    </button>
-
+    <canvas></canvas>
     <script src="./main.js" type="module"></script>
   </body>
 </html>
