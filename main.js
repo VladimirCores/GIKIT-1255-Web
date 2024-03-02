@@ -16,7 +16,7 @@ let selectUnit = null;
 const units = [];
 
 const zealotBase = new Base('Zealots Base', 10, baseZealot, unitZealot, map, onUnitCreation);
-const humanBase = new HumanBase('Human Base', 2, baseHumans, unitMarine, map, onUnitCreation);
+const humanBase = new HumanBase(baseHumans, unitMarine, map, onUnitCreation);
 
 console.log('> zealotBase:', zealotBase.name);
 
