@@ -1,96 +1,64 @@
-import Planet from './solar/Planet.js'
-import PlanetComposable from './solar/composable/PlanetComposable.js'
-import PlanetSettings from './solar/composable/PlanetSettings.js'
-import PlaneCircularMoveAlgorithm from './solar/composable/algorithms/move/PlaneCircularMoveAlgorithm.js'
-import PlanetSimpleRenderAlgorithm from './solar/composable/algorithms/render/PlanetSimpleRenderAlgorithm.js'
-import PlanetSquareRenderAlgorithm from './solar/composable/algorithms/render/PlanetSquareRenderAlgorithm.js'
-import Sun from './solar/Sun.js'
+const app = document.getElementById('app');
 
-const ctx = InitiateCanvas();
+const AMOUNT = 120;
+const BLOCK_SIZE = 13;
+const DIMENSION = 4;
+const ROWS = DIMENSION * 2;
 
-const sun = new PlanetComposable(
-  new PlanetSettings(
-    'Sun', 
-    window.innerWidth / 2,
-    window.innerHeight / 2,
-    0, 
-    'yellow', 
-    100, 
-    0
-  ),
-  null,
-  new PlanetSimpleRenderAlgorithm()
-);
+setInterval(() => GenerateMonsters(AMOUNT), 3000);
+GenerateMonsters(AMOUNT);
 
-// const planets = InitiatePlanetsRelatedToSun(sun);
-const planets = InitiatePlanetsComposablesRelatedToSun(sun);
-
-Start();
-
-function InitiateCanvas() {
-  const canvas = document.querySelector("canvas");
-  const ctx = canvas.getContext("2d");
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  return ctx;
-}
-
-function InitiatePlanetsRelatedToSun(sun) {
-  return [
-    new Planet('Earth', sun.offsetX, sun.offsetY, sun.size * 2 + 30, 'green', 15, 0.5, [
-      new Planet('Moon', 0, 0, 25, '#ffcc00', 5, 1.2),
-      new Planet('Moon2', 0, 0, 35, 'blue', 3, 1.4),
-      new Planet('Moon2', 0, 0, 50, '#ff00cc', 3, 1.1)
-    ]),
-    new Planet('Mars', sun.offsetX, sun.offsetY, sun.size * 2 + 80, 'red', 10, 1.2),
-  ];
-}
-
-
-function InitiatePlanetsComposablesRelatedToSun(sun) {
-  return [
-    new PlanetComposable(
-      new PlanetSettings('Mars', sun.offsetX, sun.offsetY, sun.size * 2 + 80, 'red', 10, 1.2),
-      new PlaneCircularMoveAlgorithm(),
-      new PlanetSimpleRenderAlgorithm()
-    ),
-    new PlanetComposable(
-      new PlanetSettings('Earth', sun.offsetX, sun.offsetY, sun.size * 2 + 30, 'green', 15, 0.5),
-      new PlaneCircularMoveAlgorithm(),
-      new PlanetSimpleRenderAlgorithm()
-    )];
-}
-
-window.addEventListener('keyup', (event) => {
-  if (event.code === 'Space') { // 32 = Space
-    planets.forEach((planet) => {
-      if (planet.renderAlgorithm instanceof PlanetSquareRenderAlgorithm) {
-        planet.renderAlgorithm = new PlanetSimpleRenderAlgorithm();
-      } else {
-        planet.renderAlgorithm = new PlanetSquareRenderAlgorithm();
-      }
-    })
+function GenerateMonsters(amount) {
+  app.innerHTML = '';
+  // const variation = Math.random();
+  for (let index = 0; index < amount; index++) {
+    const monster = CreatePixelMonster(
+      Math.random(),
+      getRandomColor(),
+      getRandomColor()
+    );
+    app.appendChild(monster);
   }
-})
-
-function Start() {
-  setInterval(() => {
-    // console.log('render');
-    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-    
-    sun.render(ctx);
-  
-    planets.forEach(planet => {
-      planet.render(ctx);
-      planet.move();
-      if (planet.followers) {
-        planet.followers.forEach(follower => {
-          follower.offsetX = planet.offsetX + planet.x;
-          follower.offsetY = planet.offsetY + planet.y;
-          follower.render(ctx);
-          follower.move();
-        });
-      }
-    });
-  }, 1000 / 60);
 }
+
+function getRandomColor() {
+  return Math.floor(Math.random()*16777215).toString(16)
+}
+
+function CreatePixelMonster(variation = 0.5, color1 = 'black', color2 = 'white') {
+  const container = document.createElement('div');
+  container.style.display = 'inline-block';
+  container.style.margin = '4px 4px';
+
+  for (let i = 0; i < ROWS; i++) {
+    const row = document.createElement('div');
+    row.style.height = BLOCK_SIZE + 'px';
+
+    const chances = [];
+
+    for (let j = 0; j < DIMENSION; j++) {
+      const chance = Math.random() > variation;
+      const box = CreateBoxWithChance(chance, color1, color2);
+      row.appendChild(box);
+      chances.push(chance);
+    }
+
+    for (let j = DIMENSION; j > 0; j--) {
+      const chance = chances[j - 1];
+      const box = CreateBoxWithChance(chance, color1, color2);
+      row.appendChild(box);
+    }
+
+    container.appendChild(row);
+  }
+  return container;
+}
+
+function CreateBoxWithChance(chance, color1, color2) {
+  const box = document.createElement('div');
+  box.style.width = box.style.height = BLOCK_SIZE + 'px';
+  box.style.backgroundColor = chance ? color1 : color2;
+  box.style.display = 'inline-block';
+  return box;
+}
+
